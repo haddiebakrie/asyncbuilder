@@ -1,39 +1,16 @@
-kivy-garden demo flower
-========================
+AsyncBuilder
+============
 
-[![Github Build Status](https://github.com/kivy-garden/flower/workflows/Garden%20flower/badge.svg)](https://github.com/kivy-garden/flower/actions)
+A class that builds an asynchronous widget and updates the UI based on the state of the task.
 
-A kivy garden flower that shows how to add flowers.
+Attributes:
+    :attr:`builder` :class:`ObjectProperty`: The asynchronous task to be executed.
+    :attr:`value` :class:`StringProperty`: The result of the asynchronous task.
+    :attr:`async_state` :class:`ObjectProperty`: The current state of the asynchronous task.
+    :attr:`waiting` :class:`ObjectProperty`: The widget displayed while the task is running.
+    :attr:`done` :class:`ObjectProperty`: The widget displayed with the result of the task once it is complete.
 
-See https://kivy-garden.github.io/flower/ for the rendered flower docs.
-
-Please see the garden [instructions](https://kivy-garden.github.io) for how to use kivy garden flowers.
-
-CI
---
-
-Every push or pull request run the [GitHub Action](https://github.com/kivy-garden/flower/actions) CI.
-It tests the code on various OS and also generates wheels that can be released on PyPI upon a
-tag. Docs are also generated and uploaded to the repo as well as artifacts of the CI.
-
-
-TODO
--------
-
-* add your code
-
-Contributing
---------------
-
-Check out our [contribution guide](CONTRIBUTING.md) and feel free to improve the flower.
-
-License
----------
-
-This software is released under the terms of the MIT License.
-Please see the [LICENSE.txt](LICENSE.txt) file.
-
-How to release
-===============
-
-See the garden [instructions](https://kivy-garden.github.io/#makingareleaseforyourflower) for how to make a new release.
+Both `waiting` and `done` can either be a `str` or a `function`.
+If a `string` is passed, :meth:`kivy.factory.Factory.get` is called to 
+obtain the Widget.
+If a function is passed, the fuction must return a `Widget`.
