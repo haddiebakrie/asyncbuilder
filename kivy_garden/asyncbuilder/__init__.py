@@ -47,14 +47,15 @@ Builder.load_string("""
 
 """)
 
+
 async def asyncFun():
     a = 0
     for i in range(2):
         await ak.sleep(1)
         a = i
         print(i)
-       
     return str(a)
+
 
 class ConnectionState(Enum):
     DONE = auto()
@@ -62,23 +63,30 @@ class ConnectionState(Enum):
     ERROR = auto()
     NONE = auto()
 
+
 class AsyncBuilder(FloatLayout):
 
     """
     AsyncBuilder
     ============
 
-    A class that builds an asynchronous widget and updates the UI based on the state of the task.
+    A class that builds an asynchronous widget and
+    updates the UI based on the state of the task.
 
     Attributes:
-        :attr:`builder` :class:`ObjectProperty`: The asynchronous task to be executed.
-        :attr:`value` :class:`StringProperty`: The result of the asynchronous task.
-        :attr:`async_state` :class:`ObjectProperty`: The current state of the asynchronous task.
-        :attr:`waiting` :class:`ObjectProperty`: The widget displayed while the task is running.
-        :attr:`done` :class:`ObjectProperty`: The widget displayed with the result of the task once it is complete.
-    
+        :attr:`builder` :class:`ObjectProperty`: The asynchronous task to be
+         executed.
+        :attr:`value` :class:`StringProperty`: The result of the asynchronous
+         task.
+        :attr:`async_state` :class:`ObjectProperty`: The current state of the
+         asynchronous task.
+        :attr:`waiting` :class:`ObjectProperty`: The widget displayed while
+         the task is running.
+        :attr:`done` :class:`ObjectProperty`: The widget displayed with the
+         result of the task once it is complete.
+
     Both `waiting` and `done` can either be a `str` or a `function`.
-    If a `string` is passed, :meth:`kivy.factory.Factory.get` is called to 
+    If a `string` is passed, :meth:`kivy.factory.Factory.get` is called to
     obtain the Widget.
     If a function is passed, the fuction must return a `Widget`.
     """
@@ -129,9 +137,9 @@ class AsyncBuilder(FloatLayout):
             self.async_state = ConnectionState.DONE
             self._done.snapshot = self.value
             self.add_widget(self._done())
-            
         build = ak.start(run())
-    
+
+
 if __name__ == "__main__":
     from kivymd.app import MDApp
     from kivy.uix.recycleview import RecycleView
@@ -150,19 +158,20 @@ if __name__ == "__main__":
 
 """)
 
-
     def network_request():
         response = requests.get("https://jsonplaceholder.typicode.com/users")
-        for i in range(1000) : print(i)
+        for i in range(1000):
+            print(i)
         li = []
         p = response.json()
         for idx, i in enumerate(p):
-            li.append({"text":i['email']})
+            li.append({"text": i['email']})
         print(li)
         return li
 
     class RV(RecycleView):
         snapshot = ObjectProperty()
+
         def __init__(self, **kwargs):
             super(RV, self).__init__(**kwargs)
             self.data = self.snapshot()
@@ -174,5 +183,5 @@ if __name__ == "__main__":
             builder.done = lambda data: RV
 
             return builder
-        
+
     TestBuilder().run()
